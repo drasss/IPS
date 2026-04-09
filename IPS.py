@@ -8,6 +8,7 @@ r,s=st.tabs(["Recherche","Statistiques"])
 
 df = pd.read_csv("data.csv", sep=";", encoding="utf-8", low_memory=False, header=0)
 df=df[df["Rentrée scolaire"]=="2025-2026"]
+df_sort=pd.DataFrame(df.sort_values(by="IPS de l'établissement", ascending=False).dropna(subset=["IPS de l'établissement"])[["Région académique","Académie","Département","Nom de la commune","UAI","Nom de l'établissement","IPS de l'établissement"]])
 
 def sub_df(label, df_sort):
     return pd.DataFrame(df_sort[df_sort[label]==df_sort[df_sort["UAI"]==UAI][label].values[0]].to_numpy(), columns=df_sort.columns)
@@ -29,7 +30,6 @@ elif ville_lycee:
     else:
         UAI=df[df['Nom de l\'établissement']==nom_lycee][df['Nom de la commune']==ville_lycee]["UAI"].values[0]
 if UAI!="":
-    df_sort=pd.DataFrame(df.sort_values(by="IPS de l'établissement", ascending=False).dropna(subset=["IPS de l'établissement"])[["Région académique","Académie","Département","Nom de la commune","UAI","Nom de l'établissement","IPS de l'établissement"]])
     cols=r.columns(5)
     #Commune
     df_C=sub_df("Nom de la commune", df_sort)
